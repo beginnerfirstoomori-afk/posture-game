@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>正しい姿勢どっち？</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {
+  font-family: sans-serif;
+  text-align: center;
+  background: #f5f5f5;
+}
+.container {
+  max-width: 400px;
+  margin: auto;
+  padding: 20px;
+}
+.choices {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+.choice {
+  width: 48%;
+  padding: 30px 10px;
+  background: white;
+  border-radius: 10px;
+  font-size: 18px;
+  border: 2px solid #ccc;
+}
+.choice:active {
+  border-color: #333;
+}
+#timer, #score {
+  margin-top: 10px;
+  font-size: 18px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2>正しい姿勢どっち？</h2>
+  <p>3秒以内に選べ！</p>
+  <div id="timer">残り3秒</div>
+  <div id="score">スコア: 0</div>
+
+  <div class="choices">
+    <div class="choice" onclick="answer(0)">猫背</div>
+    <div class="choice" onclick="answer(1)">良い姿勢</div>
+  </div>
+</div>
+
+<script>
+let correct = Math.random() < 0.5 ? 0 : 1;
+let time = 3;
+let score = 0;
+let timerId;
+
+function startTimer() {
+  timerId = setInterval(() => {
+    time--;
+    document.getElementById("timer").textContent = "残り" + time + "秒";
+    if (time <= 0) endGame();
+  }, 1000);
+}
+
+function answer(choice) {
+  if (choice === correct) {
+    score++;
+    document.getElementById("score").textContent = "スコア: " + score;
+    nextRound();
+  } else {
+    endGame();
+  }
+}
+
+function nextRound() {
+  clearInterval(timerId);
+  time = 3;
+  correct = Math.random() < 0.5 ? 0 : 1;
+  document.getElementById("timer").textContent = "残り3秒";
+  startTimer();
+}
+
+function endGame() {
+  clearInterval(timerId);
+  alert("終了！スコア: " + score);
+  location.reload();
+}
+
+startTimer();
+</script>
+
+</body>
+</html>
